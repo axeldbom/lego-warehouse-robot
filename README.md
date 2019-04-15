@@ -1,4 +1,4 @@
-This project is an implementation of a streaming service and management of a EV3 robot, and is a part of the course 
+This project is an implementation of a streaming service and management of a EV3 robot. This project is a part of the course 
 *Global Software Product Development* at Uppsala University.
 
 Getting Started
