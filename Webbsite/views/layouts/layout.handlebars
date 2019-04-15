@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang = 'sv'>
+	<head>
+		<title>GSPD team 6</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="/css/style_global.css">
+		<link rel="stylesheet" href="/bootstrap-3.4.1-dist/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="/bootstrap-3.4.1-dist/css/bootstrap.css">
+		<script src="../../javascript/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io()
+			socket.on('connect', function () {})
+		</script>
+	</head>
+	<body>
+			<!-- Global header-->
+			<div class="GlobalHeader container">
+				<h1>Global header</h1>
+			</div>
+
+			<!-- Global body-->
+	    <div class="GlobalBody">
+				{{{body}}}
+	    </div>
+
+			<!-- Global footer-->
+			<div id="GlobalFooter">
+			</div>
+
+	</body>
+	<script src="/javascript/webcam/webcam.min.js"></script>
+</html>

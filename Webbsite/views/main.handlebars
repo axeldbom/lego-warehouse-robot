@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="/css/style_main.css">
+<script type="module" src="/javascript/script_main.js"></script>
+<div class="container">
+  <div class="startStreamDiv">
+    <button class="btn btn-primary" style ="float:right" id="streamButton">New stream</button>
+    <!-- <a href="/observers" class="button" style="background-color: #666699">Observer</a> -->
+  </div>
+
+  <div id="ListOfstreamers">
+    {{#each streamers}}
+      <div id={{this.socketID}} class="list-group">
+        <a href="/observers/{{this.socketID}}" class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{this.title}}</h5>
+            <small>Status: online</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small>Streamer: {{this.name}}</small>
+        </a>
+      </div>
+    {{/each}}
+  </div>
+
+</div>
+
+<div id=overlayDiv>
+  <div class="overlayDiv-content">
+    <span onclick="this.parentElement.parentElement.style.display='none';" id="close" class="close2" title="Close">&times;</span>
+    <p class="overlayDiv-H2">New stream</p>
+    <p class="overlayDiv-p"> Fill in the information below to create a new stream!</p>
+
+    <form action="/streamers/{{sessionID}}" method="post" class=""  autocomplete="off" id="streamForm" >
+      <input hidden="true"  autocomplete="false">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" class="form-control" aria-describedby="title" placeholder="Enter title" name="title">
+        <small class="form-text text-muted">This will be shown for those who want to join a stream</small>
+      </div>
+      <div class="form-group">
+        <label>Nickname</label>
+        <input type="text" class="form-control" placeholder="Nickname" name="nickname">
+      </div>
+      <!-- <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+      </div> -->
+
+      <button class="btn btn-primary">Create</button>
+      <button onclick="document.getElementById('overlayDiv').style.display='none';" type= "button" class="btn">Cancel</button>
+
+
+    </form>
+
+  </div>
+</div>

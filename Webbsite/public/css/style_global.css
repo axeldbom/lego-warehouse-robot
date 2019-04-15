@@ -1,0 +1,10 @@
+body{
+  width: inherit;
+}
+
+.container{
+ max-width: 1200px;/*970px;*/
+ margin: auto;
+ transition: 1s;
+ /* overflow: hidden; */
+}
