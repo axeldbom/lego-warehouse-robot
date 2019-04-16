@@ -16,10 +16,9 @@ router.post('/:streamID', async function (req, res) {
   var streamID = req.params.streamID
   console.log(nickname)
   console.log(title)
-  console.log(password)
 
   req.io.on('connection', async function (socket) {
-    socket.on('streamSocket', async function (socketID) {
+    socket.on('streamSocket', async function () {
       if (!req.session.createStreamLock) {
         if (!(await Stremer.isAstreamer(socket.id))) {
           console.log('in streamers/:stremID')
@@ -46,8 +45,9 @@ router.post('/:streamID', async function (req, res) {
   res.redirect('/streamers')
 })
 
-function trueOrUndefined (val) {
-  return val == true || val == undefined
-}
+router.post('/r/o', async function (req, res) {
+  console.log('HELLO')
+  res.redirect('/')
+})
 
 module.exports = router

@@ -76,9 +76,11 @@ io.on('connection', function (socket) {
   })
 
   socket.on('forwardImage', function (image) {
-    // socket.broadcast.emit('forwardImage', image)
+    // socket.broadcast.emit('forwardImage', image) //To everyone
     socket.to(socket.id).emit('forwardImage', image)
-    // console.log(image)
+  })
+  socket.on('forwardImageRobot', function (image) {
+    socket.to(socket.id).emit('forwardImage', image.toString('utf8'))
   })
 })
 

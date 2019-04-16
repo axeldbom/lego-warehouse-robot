@@ -15,8 +15,4 @@ router.get('/:streamID', function (req, res) {
   res.render('observers/stream')
 })
 
-function trueOrUndefined (val) {
-  return val == true || val == undefined
-}
-
 module.exports = router
