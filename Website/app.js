@@ -1,10 +1,10 @@
-var express = require('express')
-var path = require('path')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
-var exphbs = require('express-handlebars')
-var session = require('express-session')
-var Handlebars = require('handlebars')
+const express = require('express')
+const path = require('path')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const exphbs = require('express-handlebars')
+const session = require('express-session')
+const Handlebars = require('handlebars')
 
 // db stuff
 var mongo = require('mongodb')
@@ -29,7 +29,7 @@ var db = mongoose.connection
 var app = express()
 
  // mongodb models
-var Stremer = require('./models/stream')
+var Streamer = require('./models/stream')
 
   // View Engine
 app.set('views', path.join(__dirname, 'views'))
@@ -69,9 +69,9 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', async function () {
     console.log('socket disconnected ' + socket.id)
-    if (await Stremer.isAstreamer(socket.id)) {
+    if (await Streamer.isAstreamer(socket.id)) {
       socket.broadcast.emit('removedStreamer', socket.id)
-      await Stremer.removeStreamerFromSocketId(socket.id)
+      await Streamer.removeStreamerFromSocketId(socket.id)
     }
   })
 
@@ -80,7 +80,10 @@ io.on('connection', function (socket) {
     socket.to(socket.id).emit('forwardImage', image)
   })
   socket.on('forwardImageRobot', function (image) {
-    socket.to(socket.id).emit('forwardImage', image.toString('utf8'))
+    image = (image).toString('base64').replace(/^data\:image\/\w+\;base64\,/, '')
+    // console.log(image)
+    // console.log(image.toString().length)
+    socket.to(socket.id).emit('forwardImageRobot', image)
   })
 })
 

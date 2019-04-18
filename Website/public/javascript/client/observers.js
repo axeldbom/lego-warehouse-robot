@@ -5,3 +5,7 @@ socket.on('forwardImage', function (image) {
   const img = document.getElementById('cameraImg')
   img.src = 'data:image/jpeg;base64,' + image + ''
 })
+socket.on('forwardImageRobot', function (image) {
+  const img = document.getElementById('cameraImg')
+  img.src = 'data:image/jpeg;base64,' + image + ''
+})

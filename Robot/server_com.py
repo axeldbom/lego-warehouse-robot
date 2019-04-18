@@ -3,6 +3,7 @@ import cv2
 import base64
 import time
 import requests
+import sys
 # requests lib is needed - use pip install requests
 # Handling real time stuff, use opencv - pip install opencv-python
 
@@ -12,14 +13,16 @@ def cameraStuff(sio):
     while True:
         check, frame = camera.read()
         frame = cv2.flip(frame, 1)
-        data = base64.b64encode(frame)  # data to send via socket
+        img = cv2.imencode('.jpg', frame)[1]
+        data = base64.urlsafe_b64encode(img)  # data to send via socket
+        print(sys.getsizeof(data))
         if sio is not None:
             sio.emit('forwardImageRobot', data)
         cv2.imshow("TEST", frame)
         key = cv2.waitKey(1)
         if key == ord('q'):
             break
-        time.sleep(10)
+        time.sleep(5)  # regulates how fast we send a signal to the server
 
     camera.release()
     cv2.destroyAllWindows()
@@ -41,6 +44,7 @@ def on_connect():
         pass
         sio.emit('streamSocket')
         cameraStuff(sio)
+        sio.disconnect()
 
 
 @sio.on('my message')
