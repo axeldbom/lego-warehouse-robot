@@ -20,11 +20,11 @@ var streamerSchema = mongoose.Schema({
   expireAt: { type: Date, default: undefined }
 })
 
-var Stremer = module.exports = mongoose.model('Stremer', streamerSchema)
+var Streamer = module.exports = mongoose.model('Streamer', streamerSchema)
 
 module.exports.getAllStreams = async function () {
   var streamerPool = await new Promise(function (resolve, reject) {
-    Stremer.find(function (err, streamers) {
+    Streamer.find(function (err, streamers) {
       if (err)reject()
       resolve(streamers)
     })
@@ -34,7 +34,7 @@ module.exports.getAllStreams = async function () {
 }
 module.exports.isAstreamer = async function (socketID) {
   var result = await new Promise(function (resolve, reject) {
-    Stremer.find({socketID: socketID}, function (err, result) {
+    Streamer.find({socketID: socketID}, function (err, result) {
       if (err)reject()
       resolve(result)
     })
@@ -42,14 +42,14 @@ module.exports.isAstreamer = async function (socketID) {
   return result.length >= 1
 }
 module.exports.removeStreamerFromSocketId = async function (socketID) {
-  Stremer.deleteOne({socketID: socketID}, function (err) {
+  Streamer.deleteOne({socketID: socketID}, function (err) {
     if (err) throw (err)
     console.log('1 document deleted')
   })
 }
 module.exports.getStreamers = async function () {
   var result = await new Promise(function (resolve, reject) {
-    Stremer.find(function (err, streams) {
+    Streamer.find(function (err, streams) {
       if (err)reject()
 
       resolve(streams)

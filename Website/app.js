@@ -80,9 +80,7 @@ io.on('connection', function (socket) {
     socket.to(socket.id).emit('forwardImage', image)
   })
   socket.on('forwardImageRobot', function (image) {
-    image = (image).toString('base64').replace(/^data\:image\/\w+\;base64\,/, '')
-    // console.log(image)
-    // console.log(image.toString().length)
+    image = image.substring(2, image.length - 1)
     socket.to(socket.id).emit('forwardImageRobot', image)
   })
 })
