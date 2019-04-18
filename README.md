@@ -53,11 +53,11 @@ Authors
 =======
 
 - Akram Adinda - **Role** 
-- Amrita H Nair - **Role** 
-- Axel Dalbom - **Role** 
+- Axel Dalbom - **Role**
+- Amrita H Nair - **Role**  
 - Geun Ho Lee - **Role** 
-- Lloyd Manefield - **Role** 
-- Vương Lê - **Role** 
+- Vương Lê - **Role**
+- Lloyd Manefield - **Role**  
 
 
 License
