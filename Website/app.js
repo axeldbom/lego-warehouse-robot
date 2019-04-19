@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+var flash = require('connect-flash')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const exphbs = require('express-handlebars')
@@ -44,6 +45,9 @@ app.use(cookieParser())
   // Set Static Folder
 app.use(express.static(path.join(__dirname, 'public')))
 
+// Connect Flash
+app.use(flash())
+
   // Express Session
 app.use(session({
   secret: 'secret',
@@ -59,6 +63,9 @@ var io = require('socket.io')(server)
 
 // Global Vars
 app.use(async function (req, res, next) {
+  res.locals.success_msg = req.flash('success_msg')
+  res.locals.error_msg = req.flash('error_msg')
+  res.locals.error = req.flash('error')
   req.io = io // Making the socket obj "io" global middleware
   req.streamers = {}
   next()

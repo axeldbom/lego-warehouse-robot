@@ -1,5 +1,13 @@
 <script type="module" src="/javascript/client/observers.js"></script>
 <div class="container">
-  <h4>Stream</h4>
-  <img id="cameraImg">
+  <div class="streamImage">
+    <h4>{{streamerInfo.title}}</h4>
+    <img id="cameraImg">
+  </div>
+  <div class="controlRobot">
+    {{#if streamerInfo.robotClient}}
+    <p>Lorem ipsum dolor sit amet, consectetur</p>
+    <button type="button" id="controlRobotButton" class="btn btn-primary btn-lg">Gain control of the robot</button>
+    {{/if}}
+  </div>
 </div>

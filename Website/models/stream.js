@@ -17,7 +17,14 @@ var streamerSchema = mongoose.Schema({
   sessionID: {
     type: String
   },
-  expireAt: { type: Date, default: undefined }
+  robotClient: {
+    type: Boolean,
+    default: false
+  },
+  expireAt: {
+    type: Date,
+    default: undefined
+  }
 })
 
 var Streamer = module.exports = mongoose.model('Streamer', streamerSchema)
@@ -47,15 +54,23 @@ module.exports.removeStreamerFromSocketId = async function (socketID) {
     console.log('1 document deleted')
   })
 }
+module.exports.getStreamFromSocketID = async function (socketID) {
+  var result = await new Promise(function (resolve, reject) {
+    var result = Streamer.find({socketID: socketID}, function (err, result) {
+      if (err) reject()
+      resolve(result)
+    })
+  })
+  return result
+}
+
 module.exports.getStreamers = async function () {
   var result = await new Promise(function (resolve, reject) {
-    Streamer.find(function (err, streams) {
+    Streamer.find(function (err, result) {
       if (err)reject()
-
-      resolve(streams)
+      resolve(result)
     })
   }).catch(error => { console.log('caught', error) })
   if (result == undefined) return []
   return result.reverse()
 }
-

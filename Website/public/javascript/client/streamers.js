@@ -13,7 +13,6 @@ Webcam.attach('mywebcam')// https://github.com/jhuckaby/webcamjs
 Webcam.on('load', function () {
   setInterval(function () {
     Webcam.snap(function (data_uri) {
-      console.log(data_uri)
       var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '')
       socket.emit('forwardImage', raw_image_data)
     })

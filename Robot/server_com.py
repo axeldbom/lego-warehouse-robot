@@ -13,11 +13,14 @@ Argument that can be passed when running the script
 
 * help: displays all available flags
 * devm: Developer mode, which enables an external window that shows the video feed
+* url: Url to the server, http://<url>
 
 """
 parser = argparse.ArgumentParser()
 parser.add_argument(
     '--devm', help='Developer mode - illustrates the video feed in a canvas', action='store_true')
+parser.add_argument(
+    '--url', help='url to the server - http://<input>, defaults as localhost:3000', default='localhost:3000')
 args = parser.parse_args()
 
 
@@ -60,10 +63,11 @@ sio = socketio.Client()
 @sio.on('connect')
 def on_connect():
     print('connection established')
-    r = requests.post("http://localhost:3000/streamers/r",
+    r = requests.post("http://"+args.url+"/streamers/r",
                       data={
                           'nickname': 'Mr.Robot',
                           'title': 'Robot stream',
+                          'robotClient': 'true'
                       })
     print(r.status_code, r.reason)
     if r.status_code == 200:
@@ -84,5 +88,5 @@ def on_disconnect():
     print('disconnected from server')
 
 
-sio.connect('http://localhost:3000')
+sio.connect('http://'+args.url)
 sio.wait()

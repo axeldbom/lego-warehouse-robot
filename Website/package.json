@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "*",
+    "connect-flash": "^0.1.1",
     "connect-mongo": "^2.0.3",
     "cookie-parser": "^1.4.1",
     "express": "*",
