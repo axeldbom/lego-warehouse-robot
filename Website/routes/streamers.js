@@ -15,8 +15,13 @@ router.post('/:streamID', async function (req, res) {
   var robotClient = req.body.robotClient
   var password = '0000' // use a lib for generating passwords
   var streamID = req.params.streamID
+  let socket_id = []
 
   req.io.on('connection', async function (socket) {
+    socket_id.push(socket.id)
+    if (socket_id[0] === socket.id) {
+      req.io.removeAllListeners('connection')
+    }
     socket.on('streamSocket', async function () {
       if (!req.session.createStreamLock) {
         if (!(await Streamer.isAstreamer(socket.id))) {
@@ -38,18 +43,12 @@ router.post('/:streamID', async function (req, res) {
           })
           socket.join(socket.io)
           socket.broadcast.emit('newStreamCreated', newStreamer)
-        // req.session.cookie.streamInfo[socketID] = true // TODO: make this scope run once, part 1
         }
         req.session.createStreamLock = true
       }
     })
   })
   res.redirect('/streamers')
-})
-
-router.post('/r/o', async function (req, res) {
-  console.log('HELLO')
-  res.redirect('/')
 })
 
 module.exports = router

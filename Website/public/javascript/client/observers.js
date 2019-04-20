@@ -1,9 +1,10 @@
-var lock = false
+var lock = true
 let socketIdLength = 20
 var streamerID = document.URL.substring(document.URL.length, document.URL.length - socketIdLength)
-if (!lock) {
-  lock = true
+if (lock) {
+  lock = false
   socket.emit('observerSocket', streamerID)
+  console.log('observerSocket')
 }
 socket.on('forwardImage', function (image) {
   const img = document.getElementById('cameraImg')
@@ -50,7 +51,8 @@ function onKeyUp (event) {
 document.onkeydown = onKeyDown
 document.onkeyup = onKeyUp
 // Key press functionality end
-
-document.getElementById('controlRobotButton').onclick = function (event) {
-  console.log('HELLO')
+if (document.getElementById('controlRobotButton')) {
+  document.getElementById('controlRobotButton').onclick = function (event) {
+    console.log('HELLO')
+  }
 }
