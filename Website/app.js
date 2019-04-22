@@ -70,7 +70,7 @@ app.use(async function (req, res, next) {
   req.streamers = {}
   next()
 })
-
+var controlledStreams = {}
 io.on('connection', async function (socket) {
   console.log('socket connected ' + socket.id)
 
@@ -78,6 +78,7 @@ io.on('connection', async function (socket) {
     console.log('socket disconnected ' + socket.id)
     if (await Streamer.isAstreamer(socket.id)) {
       socket.broadcast.emit('removedStreamer', socket.id)
+      delete controlledStreams[socket.id]
       await Streamer.removeStreamerFromSocketId(socket.id)
     }
   })
@@ -115,10 +116,30 @@ io.on('connection', async function (socket) {
         console.log(err) // TODO:  Fix 11000 duplicate key error
       }
     })
+    controlledStreams[socket.id] = false
     socket.broadcast.emit('newStreamCreated', newStreamer)
   })
+  socket.on('gainControlOfTheRobot', function (streamerID, callback) {
+    if (!controlledStreams[streamerID]) {
+      controlledStreams[streamerID] = true
+      socket.in(streamerID).emit('lockControlButton')
+      callback(true)
+    } else {
+      callback(false)
+    }
+  })
+  socket.on('releaseRobotButton', function (streamerID) {
+    if (controlledStreams[streamerID]) {
+      controlledStreams[streamerID] = false
+      socket.in(streamerID).emit('unlockControlButton')
+    }
+  })
+  socket.on('controlRobot', function (obj) {
+    if (controlledStreams[obj.streamerID]) {
+      io.to(`${obj.streamerID}`).emit('keys', obj.keys)
+    }
+  })
 })
-
 var routes = require('./routes/index')
 var streamers = require('./routes/streamers')
 var observers = require('./routes/observers')

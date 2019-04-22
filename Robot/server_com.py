@@ -84,6 +84,11 @@ def on_message(data):
     sio.emit('my response', {'response': 'my response'})
 
 
+@sio.on('keys')
+def on_keys(data):
+    print(data)
+
+
 @sio.on('disconnect')
 def on_disconnect():
     print('disconnected from server')
