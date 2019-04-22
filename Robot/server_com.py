@@ -38,7 +38,11 @@ def recordAndEmit(socket=None, delay=1/30):
     while True:
         check, frame = camera.read()
         frame = cv2.flip(frame, 1)
-        img = cv2.imencode('.jpg', frame)[1]
+        try:
+            img = cv2.imencode('.jpg', frame)[1]
+        except Exception as e:
+            print('Camera is not available, exiting...')
+            return
         data = base64.b64encode(img)
         if socket is not None:
             socket.emit('forwardImageRobot', str(data))
@@ -63,18 +67,15 @@ sio = socketio.Client()
 @sio.on('connect')
 def on_connect():
     print('connection established')
-    r = requests.post("http://"+args.url+"/streamers/r",
-                      data={
-                          'nickname': 'Mr.Robot',
-                          'title': 'Robot stream',
-                          'robotClient': 'true'
-                      })
-    print(r.status_code, r.reason)
-    if r.status_code == 200:
-        pass
-        sio.emit('streamSocket')
-        recordAndEmit(sio)
-        sio.disconnect()
+    data = {
+        'nickname': 'Mr.Robot',
+        'title': 'Robot stream',
+        'robotClient': True,
+        'password': '0000'
+    }
+    sio.emit('startNewStreamRobot', data)
+    recordAndEmit(sio)
+    sio.disconnect()
 
 
 @sio.on('my message')

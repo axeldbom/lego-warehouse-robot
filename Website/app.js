@@ -71,7 +71,7 @@ app.use(async function (req, res, next) {
   next()
 })
 
-io.on('connection', function (socket) {
+io.on('connection', async function (socket) {
   console.log('socket connected ' + socket.id)
 
   socket.on('disconnect', async function () {
@@ -83,12 +83,39 @@ io.on('connection', function (socket) {
   })
 
   socket.on('forwardImage', function (image) {
-    // socket.broadcast.emit('forwardImage', image) //To everyone
     socket.to(socket.id).emit('forwardImage', image)
   })
   socket.on('forwardImageRobot', function (image) {
     image = image.substring(2, image.length - 1)
     socket.to(socket.id).emit('forwardImageRobot', image)
+  })
+  socket.on('startNewStream', async function (sessionID) {
+    var newStreamer = await Streamer.addSocketID(sessionID, socket.id)
+    socket.broadcast.emit('newStreamCreated', newStreamer)
+  })
+  socket.on('observerSocket', function (socketID) {
+    socket.join(socketID)
+    console.log('Socket: ' + socket.id + ' joins the group of socket: ' + socketID)
+  })
+  socket.on('startNewStreamRobot', async function (data) {
+    // console.log(data)
+    var newStreamer = new Streamer({
+      title: data.title,
+      name: data.nickname,
+      controlPassword: data.password,
+      sessionID: 'Robot - no ID',
+      socketID: socket.id,
+      robotClient: data.robotClient
+    })
+    console.log('--------------------')
+    console.log(newStreamer.socketID)
+    console.log('--------------------')
+    newStreamer.save(function (err) {
+      if (err) {
+        console.log(err) // TODO:  Fix 11000 duplicate key error
+      }
+    })
+    socket.broadcast.emit('newStreamCreated', newStreamer)
   })
 })
 

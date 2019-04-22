@@ -10,20 +10,6 @@ router.get('/:streamID', async function (req, res) {
     res.redirect('/') // add message
     return
   }
-  let socket_id = []
-  req.io.on('connection', function (socket) {
-    socket_id.push(socket.id)
-    if (socket_id[0] === socket.id) {
-      req.io.removeAllListeners('connection')
-    }
-    socket.on('observerSocket', function (socketID) {
-      if (!req.session.joinStreamLock) {
-        socket.join(socketID)
-        console.log('Socket: ' + socket.id + ' joins the group of socket: ' + socketID)
-        req.session.joinStreamLock = true
-      }
-    })
-  })
   res.render('observers/stream', {streamerInfo: streamerInfo[0]})
 })
 
