@@ -10,6 +10,9 @@ boolean NO_IP=false;
 String IP="";
 char temp1='0';
 
+String name="<p>Circuit Digest</p>";   //22
+String dat="<p>Data Received Successfully.....</p>";     //21
+
 //TMP36 Pin Variables
 int sensorPin = 0;
 
@@ -17,7 +20,7 @@ int sensorPin = 0;
 void setup() {
   Serial.begin(9600); // Start the serial connection with the computer 
                       // to view the result open the serial monitor
-  client.being(9600);
+  client.begin(9600);
   wifi_init();
 }
 
@@ -31,7 +34,7 @@ void loop() {
     while(client.available()) {
       if(client.find("0,CONNECT")) {
         Serial.println("Start Printing");
-        Send();
+        // Send();
         Serial.println("Done Printing");
         delay(1000);
       }
@@ -121,7 +124,7 @@ void wifi_init() {
   connect_wifi("AT+CWMODE=3",100);
   connect_wifi("AT+CWQAP",100);  
   connect_wifi("AT+RST",5000);
-  check4IP(5000);
+  checkForIP(5000);
   if(!NO_IP) {
     Serial.println("Connecting Wifi....");
     connect_wifi("AT+CWJAP=\"OSGOTANATION_UPUNET\",\"uppsalauni\"",10000); //provide your WiFi username and password here
@@ -166,7 +169,7 @@ void Send() {
   webpage+=dat;
   sendwebdata(webpage);
   delay(1000);
-  webpage = "<a href="http://circuitdigest.com/";
+  webpage = "<a href=\"http://circuitdigest.com/";
   webpage+="\">Click Here for More projects</a>";
   sendwebdata(webpage);
   client.println("AT+CIPCLOSE=0"); 
