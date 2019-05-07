@@ -26,6 +26,7 @@ function keyHandler (bool, key) {
     keys[key] = bool
   }
 }
+var lock = true
 
 const keys = {
   ArrowUp: false,
@@ -42,7 +43,13 @@ function onKeyDown (event) {
       streamerID: streamerID,
       keys: keys
     }
-    socket.emit('controlRobot', obj)
+    if (lock) {
+      lock = false
+      socket.emit('controlRobot', obj)
+      setTimeout(function () {
+        lock = true
+      }, 40)
+    }
   }
 }
 function onKeyUp (event) {
