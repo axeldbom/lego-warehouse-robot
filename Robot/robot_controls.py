@@ -40,26 +40,26 @@ class Robot:
             self.package = True
             return
 
-    def drive_forward():
+    def drive_forward(self):
         self.steer_pair.on(0, 50)
 
-    def drive_backwards():
+    def drive_backwards(self):
         self.steer_pair.on(0, -50)
     
-    def turn_right():
+    def turn_right(self):
         self.steer_pair.on(100, 25)
 
-    def turn_left():
+    def turn_left(self):
         self.steer_pair.on(-100, 25)
 
-    def tank_stop():
+    def tank_stop(self):
         self.tank_pair.off()
 
-    def color_sensor():
+    def color_sensor(self):
         for i in range(0,100):
             print(cs.value())
             time.sleep(0.5)
     
     def stop(self):
         self.steer_pair.off()
-		self.tank_pair.off()
+
