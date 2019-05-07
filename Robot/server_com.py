@@ -21,8 +21,9 @@ parser.add_argument(
     '--devm', help='Developer mode - illustrates the video feed in a canvas', action='store_true')
 parser.add_argument(
     '--url', help='url to the server - http://<input>, defaults as localhost:3000', default='localhost:3000')
+parser.add_argument(
+    '--strm', help='Streamer mode - streams footage from the device to the server', action='store_true')
 args = parser.parse_args()
-
 
 """
 **recordAndEmit**
@@ -74,8 +75,12 @@ def on_connect():
         'password': '0000'
     }
     sio.emit('startNewStreamRobot', data)
-    recordAndEmit(sio)
-    sio.disconnect()
+    if args.strm:
+        recordAndEmit(sio)
+        sio.disconnect()
+
+    elif len(input("Press enter to terminate...\n")) >= 0:
+        sio.disconnect()
 
 
 @sio.on('my message')
