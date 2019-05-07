@@ -6,9 +6,4 @@ from robot_controls import Robot
 
 if __name__ == "__main__":
 	robot = Robot()
-	robot.drive_forward()
-	time.sleep(1)
-	robot.stop()
-	robot.turn_right()
-	time.sleep(1)
-	robot.stop()
+	robot.color_sensor()

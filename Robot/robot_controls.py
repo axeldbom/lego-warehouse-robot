@@ -21,7 +21,10 @@ class Robot:
         # initiate motor pairs
         self.tank_pair = MoveTank(OUTPUT_B, OUTPUT_C)
         self.steer_pair = MoveSteering(OUTPUT_B, OUTPUT_C)
-        self.speed = 25
+        self.speed = 50
+        self.turn_speed = 25
+        self.drive_duration = 0.7
+        self.turn_duration = 0.25
 
         # initiate individual motors
         self.mm = MediumMotor(OUTPUT_A)
@@ -40,16 +43,16 @@ class Robot:
             self.package = True
 
     def drive_forward(self):
-        self.steer_pair.on_for_seconds(0, 25, 0.5)
+        self.steer_pair.on_for_seconds(0, self.speed, self.drive_duration, brake=False, block=False)
 
     def drive_backwards(self):
-        self.steer_pair.on_for_seconds(0, -25, 0.5)
+        self.steer_pair.on_for_seconds(0, -self.speed, self.drive_duration, brake=False, block=False)
     
     def turn_right(self):
-        self.steer_pair.on_for_seconds(100, 25, 0.5)
+        self.steer_pair.on_for_seconds(100, self.turn_speed, self.turn_duration, brake=False, block=False)
 
     def turn_left(self):
-        self.steer_pair.on_for_seconds(-100, 25, 0.5)
+        self.steer_pair.on_for_seconds(-100, self.turn_speed, self.turn_duration, brake=False, block=False)
 
     def tank_stop(self):
         self.tank_pair.off()
