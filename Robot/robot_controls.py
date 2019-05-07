@@ -5,7 +5,7 @@ from time import sleep
 
 class Robot:
 # Constructor
-    def __init__(self):
+    def __init__(self, speed, turn_speed):
         self.manual_control = False
         self.button = ev3.Button()
         self.package = False
@@ -21,8 +21,8 @@ class Robot:
         # initiate motor pairs
         self.tank_pair = MoveTank(OUTPUT_B, OUTPUT_C)
         self.steer_pair = MoveSteering(OUTPUT_B, OUTPUT_C)
-        self.speed = 50
-        self.turn_speed = 25
+        self.speed = speed
+        self.turn_speed = turn_speed
         self.drive_duration = 0.7
         self.turn_duration = 0.25
 
@@ -59,7 +59,7 @@ class Robot:
 
     def color_sensor(self):
         for i in range(0,100):
-            print(cs.value())
+            print(self.cs.value())
             time.sleep(0.5)
     
     def stop(self):
