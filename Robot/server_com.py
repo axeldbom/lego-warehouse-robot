@@ -1,10 +1,11 @@
 import socketio
-import cv2
+# import cv2
 import base64
 import time
 import requests
 import sys
 import argparse
+from robot_controls import Robot
 # requests lib is needed - use pip install requests
 # Handling real time stuff, use opencv - pip install opencv-python
 
@@ -63,7 +64,7 @@ def recordAndEmit(socket=None, delay=1/30):
 The socket and functions used to communicate with the server.
 """
 sio = socketio.Client()
-
+robot = Robot()
 
 @sio.on('connect')
 def on_connect():
@@ -91,7 +92,18 @@ def on_message(data):
 
 @sio.on('keys')
 def on_keys(data):
-    print(data)
+	if data.ArrowUp:
+		robot.drive_forward()
+	if data.ArrowDown:
+		robot.drive_backwards()
+	if data.ArrowLeft:
+		robot.turn_left()
+	if data.ArrowRight:
+		robot.turn_right()
+	if data.SpaceBar:
+		robot.hook_package()
+	
+    
 
 
 @sio.on('disconnect')
