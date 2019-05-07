@@ -38,19 +38,18 @@ class Robot:
             self.mm.on(-self.hook_speed)
             self.mm.wait_until_not_moving()
             self.package = True
-            return
 
     def drive_forward(self):
-        self.steer_pair.on(0, 50)
+        self.steer_pair.on_for_seconds(0, 25, 0.5)
 
     def drive_backwards(self):
-        self.steer_pair.on(0, -50)
+        self.steer_pair.on_for_seconds(0, -25, 0.5)
     
     def turn_right(self):
-        self.steer_pair.on(100, 25)
+        self.steer_pair.on_for_seconds(100, 25, 0.5)
 
     def turn_left(self):
-        self.steer_pair.on(-100, 25)
+        self.steer_pair.on_for_seconds(-100, 25, 0.5)
 
     def tank_stop(self):
         self.tank_pair.off()
