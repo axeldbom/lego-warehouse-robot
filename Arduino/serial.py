@@ -1,4 +1,3 @@
-# the data from Arduino is going to be?
 import serial, time
 
 ser = serial.Serial('/dev/ttyACM0', 9600)
