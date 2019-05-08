@@ -15,7 +15,7 @@
 // Global variables and defines
 
 // object initialization
-HardwareSerial& bthc06(Serial1);
+HardwareSerial& bthc06(Serial);
 DHT dht(DHT_PIN_DATA);
 Adafruit_SI1145 uv = Adafruit_SI1145();
 
