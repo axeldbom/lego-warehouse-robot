@@ -1,26 +1,39 @@
 <link rel="stylesheet" href="/css/style_main.css">
 <script type="module" src="/javascript/script_main.js"></script>
-<div class="container">
-  <div class="startStreamDiv">
-    <button class="btn btn-primary" style ="float:right" id="streamButton">New stream</button>
-    <!-- <a href="/observers" class="button" style="background-color: #666699">Observer</a> -->
+
+<div class="row">
+  <div class="col-md-4 col-lg-4">
   </div>
 
+  <div class="container col-md-4 col-lg-4">
+    <div class="startStreamDiv">
+      <div style="padding-top: 30px;">
+        <button class="btn btn-primary btn-block" id="streamButton">New stream</button> 
+      </div>
+      <!-- <a href="/observers" class="button" style="background-color: #666699">Observer</a> -->
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 col-lg-2">
+  </div>
+ <div class="col-md-4 col-lg-8" style="padding-top: 30px;>
   <div id="ListOfstreamers">
     {{#each streamers}}
-      <div id={{this.socketID}} class="list-group">
-        <a href="/observers/{{this.socketID}}" class="list-group-item list-group-item-action flex-column align-items-start">
-          <div class="d-flex w-100 justify-content-between">
-            <h5 class="mb-1">{{this.title}}</h5>
-            <small>Status: online</small>
-          </div>
-          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-          <small>Streamer: {{this.name}}</small>
-        </a>
-      </div>
+    <div id={{this.socketID}} class="list-group">
+      <a href="/observers/{{this.socketID}}" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{this.title}}</h5>
+          <small>Status: online</small>
+        </div>
+        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+        <small>Streamer: {{this.name}}</small>
+      </a>
+    </div>
     {{/each}}
   </div>
-
+  </div>
 </div>
 
 <div id=overlayDiv>
