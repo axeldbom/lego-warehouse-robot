@@ -3,12 +3,13 @@ var router = express.Router()
 var Streamer = require('../models/stream')
 
 router.get('/', async function (req, res) {
-  if (await Streamer.existStreamWithSessionID(req.sessionID)) {
-    res.render('streamers/stream')
-  } else {
-    req.flash('error_msg', 'To start streaming, create an entry below')
-    res.redirect('/')
-  }
+  // if (await Streamer.existStreamWithSessionID(req.sessionID)) {
+  //   res.render('streamers/stream')
+  // } else {
+  //   req.flash('error_msg', 'To start streaming, create an entry below')
+  //   res.redirect('/')
+  // }
+  res.render('streamers/stream')
 })
 
 router.post('/p/:streamID', async function (req, res) {

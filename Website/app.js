@@ -78,6 +78,7 @@ io.on('connection', async function (socket) {
     console.log('socket disconnected ' + socket.id)
     if (await Streamer.isAstreamer(socket.id)) {
       socket.broadcast.emit('removedStreamer', socket.id)
+      socket.in(socket.id).emit('unlockControlButton')
       delete controlledStreams[socket.id]
       await Streamer.removeStreamerFromSocketId(socket.id)
     }
@@ -123,6 +124,13 @@ io.on('connection', async function (socket) {
     if (!controlledStreams[streamerID]) {
       controlledStreams[streamerID] = true
       socket.in(streamerID).emit('lockControlButton')
+      callback(true)
+    } else {
+      callback(false)
+    }
+  })
+  socket.on('newRobotObserver', function (streamerID, callback) {
+    if (controlledStreams[streamerID]) {
       callback(true)
     } else {
       callback(false)
