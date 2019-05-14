@@ -6,7 +6,6 @@
 #include <Wire.h>
 
 
-
 // Pin Definitions
 #define DHT_PIN_DATA	2
 
@@ -15,14 +14,14 @@
 // Global variables and defines
 
 // object initialization
-HardwareSerial& bthc06(Serial);
+//HardwareSerial& bthc06(Serial1);
 DHT dht(DHT_PIN_DATA);
 Adafruit_SI1145 uv = Adafruit_SI1145();
 
 
 // define vars for testing menu
 const int timeout = 10000;       //define timeout of 10 sec
-char menuOption = 0;
+//char menuOption = 0;
 long time0;
 String outputString = " ";
 
@@ -32,103 +31,80 @@ void setup()
 {
     // Setup Serial which is useful for debugging
     // Use the Serial Monitor to view printed messages
-    Serial.begin(9600);
-    while (!Serial) ; // wait for serial port to connect. Needed for native USB
-    Serial.println("start");    
+    Serial1.begin(9600);
+    while (!Serial1) ; // wait for serial port to connect. Needed for native USB
+    Serial1.println("start");
     //This example uses HC-06 Bluetooth to communicate with an Android device.
     //Download bluetooth terminal from google play store, 
     //https://play.google.com/store/apps/details?id=Qwerty.BluetoothTerminal&hl=en
     //Pair and connect to 'HC-06', the default password for connection is '1234'.
     //You should see this message from your arduino on your android device
-    bthc06.begin(9600);
-    Serial.println("HC-06 Bluetooth: On");
-    bthc06.println("HC-06 Bluetooth: On");
+    Serial1.println("HC-06 Bluetooth: On");
     
     dht.begin();
-    Serial.println("DHT22/11 Humidity and Temperature Sensor: On");
+    Serial1.println("DHT22/11 Humidity and Temperature Sensor: On");
     
     if (uv.begin()) {
-      Serial.println("SI1145 Digital UV Index / IR / Visible Light Sensor: On");
+      Serial1.println("SI1145 Digital UV Index / IR / Visible Light Sensor: On");
     } else {
-      Serial.println("SI1145 Digital UV Index / IR / Visible Light Sensor: NA");      
+      Serial1.println("SI1145 Digital UV Index / IR / Visible Light Sensor: NA");      
     }
-    menuOption = menu();
-    
 }
 
 // Main logic of your circuit. 
-//It defines the interaction between the components you selected. 
-//After setup, it runs over and over again, in an eternal loop.
+// It defines the interaction between the components you selected. 
+// After setup, it runs over and over again, in an eternal loop.
 void loop() 
 {
-    if(menuOption == '1') {
-    // HC - 06 Bluetooth Serial Module - Test Code
-    String bthc06Str = "";
-    //Receive String from bluetooth device
-    if (bthc06.available())
-    {
-    //Read a complete line from bluetooth terminal
-    bthc06Str = bthc06.readStringUntil('\n');
-    // Print raw data to serial monitor
-    Serial.print("BT Raw Data: ");
-    Serial.println(bthc06Str);
-    }
-    //Send sensor data to Bluetooth device  
-    bthc06.println("PUT YOUR SENSOR DATA HERE");
-    }
-    else if(menuOption == '2') {
-      displayTempVals();
-    }
-    else if(menuOption == '3')
-    {  
-      displayLightVals();
-    }
+//    if(menuOption == '1') {
+      // HC - 06 Bluetooth Serial Module - Test Code
+//      String Serial1Str = "";
+      // Receive String from bluetooth device
+      if (Serial1.available()){
+        // Read a complete line from bluetooth terminal
+//        Serial1Str = Serial1.readStringUntil('\n');
+        // Print raw data to serial monitor
+        displaySensorVals();
+      }
+    
     delay(2000);
     
-    if (millis() - time0 > timeout)
-    {
-        menuOption = menu();
-    }
-    
+//    if (millis() - time0 > timeout) {
+//        menuOption = menu();
+//    }
 }
-
-
 
 // Menu function for selecting the components to be tested
 // Follow serial monitor for instrcutions
-char menu()
-{
-
-    Serial.println(F("\nWhich component would you like to test?"));
-    Serial.println(F("(1) HC - 06 Bluetooth Serial Module"));
-    Serial.println(F("(2) DHT22/11 Humidity and Temperature Sensor"));
-    Serial.println(F("(3) SI1145 Digital UV Index / IR / Visible Light Sensor"));
-    Serial.println(F("(menu) send anything else or press on board reset button\n"));
-    while (!Serial.available());
-
-    // Read data from serial monitor if received
-    while (Serial.available()) 
-    {
-        char c = Serial.read();
-        if (isAlphaNumeric(c)) 
-        {   
-            
-            if(c == '1') 
-    			Serial.println(F("Now Testing HC - 06 Bluetooth Serial Module"));
-    		else if(c == '2') 
-    			Serial.println(F("Now Testing DHT22/11 Humidity and Temperature Sensor"));
-    		else if(c == '3') 
-    			Serial.println(F("Now Testing SI1145 Digital UV Index / IR / Visible Light Sensor"));
-            else
-            {
-                Serial.println(F("illegal input!"));
-                return 0;
-            }
-            time0 = millis();
-            return c;
-        }
-    }
-}
+//char menu()
+//{
+//
+//    Serial.println(F("\nWhich component would you like to test?"));
+//    Serial.println(F("(1) HC - 06 Bluetooth Serial Module"));
+//    Serial.println(F("(2) DHT22/11 Humidity and Temperature Sensor"));
+//    Serial.println(F("(3) SI1145 Digital UV Index / IR / Visible Light Sensor"));
+//    Serial.println(F("(menu) send anything else or press on board reset button\n"));
+//    while (!Serial.available());
+//
+//    // Read data from serial monitor if received
+//    while (Serial.available()) {
+//        char c = Serial.read();
+//        if (isAlphaNumeric(c)) {   
+//            if(c == '1') 
+//              Serial.println(F("Now Testing HC - 06 Bluetooth Serial Module"));
+//    		    else if(c == '2')
+//    		      Serial.println(F("Now Testing DHT22/11 Humidity and Temperature Sensor"));
+//    		    else if(c == '3') 
+//    			    Serial.println(F("Now Testing SI1145 Digital UV Index / IR / Visible Light Sensor"));
+//            else {
+//                Serial.println(F("illegal input!"));
+//                return 0;
+//            }
+//            time0 = millis();
+//            return c;
+//        }
+//    }
+//}
 
 void displaySensorVals(){
   displayLightVals();
@@ -151,8 +127,7 @@ void displayLightVals(){
   outputString += F("\tIR: ");
   outputString += String(IR, 0);
 
-  Serial.println(outputString);
-  bthc06.println(outputString);
+  Serial1.println(outputString);
 }
 
 void displayTempVals(){
@@ -168,8 +143,7 @@ void displayTempVals(){
   outputString += String(dhtTempC, 1);
   outputString += F("C");
 
-  Serial.println(outputString);
-  bthc06.println(outputString);
+  Serial1.println(outputString);
 }
 
 /*******************************************************
