@@ -69,7 +69,7 @@ function gainControlOfTheRobot () {
   if (document.getElementById('controlRobotButton')) {
     document.getElementById('controlRobotButton').onclick = function (event) {
       socket.emit('gainControlOfTheRobot', streamerID, function (answer) {
-        if (answer == true) {
+        if (answer) {
           controller = true
           document.getElementById('controlRobotButton').style.display = 'none'
           document.getElementById('releaseRobotButton').style.display = 'block'
@@ -78,6 +78,11 @@ function gainControlOfTheRobot () {
     }
   }
 }
+socket.emit('newRobotObserver', streamerID, function (answer) {
+  if (answer) {
+    document.getElementById('controlRobotButton').disabled = true
+  }
+})
 function releaseControlOfTheRobot () {
   if (document.getElementById('releaseRobotButton')) {
     document.getElementById('releaseRobotButton').onclick = function (event) {
