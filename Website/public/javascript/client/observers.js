@@ -26,6 +26,7 @@ function keyHandler (bool, key) {
     keys[key] = bool
   }
 }
+var lock = true
 
 const keys = {
   ArrowUp: false,
@@ -42,7 +43,13 @@ function onKeyDown (event) {
       streamerID: streamerID,
       keys: keys
     }
-    socket.emit('controlRobot', obj)
+    if (lock) {
+      lock = false
+      socket.emit('controlRobot', obj)
+      setTimeout(function () {
+        lock = true
+      }, 40)
+    }
   }
 }
 function onKeyUp (event) {
@@ -62,7 +69,7 @@ function gainControlOfTheRobot () {
   if (document.getElementById('controlRobotButton')) {
     document.getElementById('controlRobotButton').onclick = function (event) {
       socket.emit('gainControlOfTheRobot', streamerID, function (answer) {
-        if (answer == true) {
+        if (answer) {
           controller = true
           document.getElementById('controlRobotButton').style.display = 'none'
           document.getElementById('releaseRobotButton').style.display = 'block'
@@ -71,6 +78,11 @@ function gainControlOfTheRobot () {
     }
   }
 }
+socket.emit('newRobotObserver', streamerID, function (answer) {
+  if (answer) {
+    document.getElementById('controlRobotButton').disabled = true
+  }
+})
 function releaseControlOfTheRobot () {
   if (document.getElementById('releaseRobotButton')) {
     document.getElementById('releaseRobotButton').onclick = function (event) {

@@ -1,11 +1,9 @@
 import socketio
-# import cv2
 import base64
 import time
 import requests
 import sys
 import argparse
-from robot_controls import Robot
 # requests lib is needed - use pip install requests
 # Handling real time stuff, use opencv - pip install opencv-python
 
@@ -25,6 +23,10 @@ parser.add_argument(
 parser.add_argument(
     '--strm', help='Streamer mode - streams footage from the device to the server', action='store_true')
 args = parser.parse_args()
+if args.devm:
+    import cv2
+else:
+    from robot_controls import Robot
 
 """
 **recordAndEmit**
@@ -64,7 +66,9 @@ def recordAndEmit(socket=None, delay=1/30):
 The socket and functions used to communicate with the server.
 """
 sio = socketio.Client()
-robot = Robot()
+if not args.devm:
+    robot = Robot()
+
 
 @sio.on('connect')
 def on_connect():
@@ -92,7 +96,7 @@ def on_message(data):
 
 @sio.on('keys')
 def on_keys(data):
-
+  if not args.devm:
     if data["ArrowUp"]:
         robot.drive_forward()
     if data["ArrowDown"]:
@@ -103,9 +107,9 @@ def on_keys(data):
         robot.turn_right()
     if data["SpaceBar"]:
         robot.hook_package()
+  else:
+      print(data)
 
-
-    
 
 
 @sio.on('disconnect')

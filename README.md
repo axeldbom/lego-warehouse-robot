@@ -10,7 +10,7 @@ your local machine for development and testing purposes.
 Prerequisites
 -------------
 
-##### Webbsite
+##### Website
 
 * `Node.js` - used to manage the server
 * `npm` - a package manager for JavaScript
