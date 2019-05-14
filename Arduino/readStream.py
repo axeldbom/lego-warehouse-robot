@@ -1,14 +1,19 @@
 import serial, time
 
-ser = serial.Serial('/dev/ttyACM0', 9600)
+# port for unix/mac is '/dev/tty****'
+#          windows is 'COM*'
+# ser = serial.Serial('/dev/ttyACM0', 9600)
+ser = serial.Serial('COM9', 9600)
 
 while 1:
-    serial_line = ser.readline()
+    UV_line = ser.readline()
+    temp_line = ser.readline()
     
     # print tempearture data only
-    print(serial_line[serial_line.find("Temp"):serial_line.find("C")+1])
+    print(UV_line.decode('utf-8').strip())
+    print(str(temp_line, 'utf-8').strip())
 
-    time.sleep(300) # sleep 5 minutes
+    time.sleep(2) # sleep 2 sec
 
     # Loop restarts once the sleep is finished
 

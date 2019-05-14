@@ -5,19 +5,13 @@
 #include "Adafruit_SI1145.h"
 #include <Wire.h>
 
-
 // Pin Definitions
 #define DHT_PIN_DATA	2
 
-
-
 // Global variables and defines
-
 // object initialization
-//HardwareSerial& bthc06(Serial1);
 DHT dht(DHT_PIN_DATA);
 Adafruit_SI1145 uv = Adafruit_SI1145();
-
 
 // define vars for testing menu
 const int timeout = 10000;       //define timeout of 10 sec
