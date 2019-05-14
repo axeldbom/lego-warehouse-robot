@@ -67,7 +67,7 @@ The socket and functions used to communicate with the server.
 """
 sio = socketio.Client()
 if not args.devm:
-    robot = Robot()
+    robot = Robot(30,30)
 
 
 @sio.on('connect')
