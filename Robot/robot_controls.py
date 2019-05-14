@@ -5,7 +5,7 @@ from time import sleep
 
 class Robot:
 # Constructor
-    def __init__(self):
+    def __init__(self, speed, turn_speed):
         self.manual_control = False
         self.button = ev3.Button()
         self.package = False
@@ -21,7 +21,10 @@ class Robot:
         # initiate motor pairs
         self.tank_pair = MoveTank(OUTPUT_B, OUTPUT_C)
         self.steer_pair = MoveSteering(OUTPUT_B, OUTPUT_C)
-        self.speed = 25
+        self.speed = speed
+        self.turn_speed = turn_speed
+        self.drive_duration = 0.7
+        self.turn_duration = 0.25
 
         # initiate individual motors
         self.mm = MediumMotor(OUTPUT_A)
@@ -38,26 +41,25 @@ class Robot:
             self.mm.on(-self.hook_speed)
             self.mm.wait_until_not_moving()
             self.package = True
-            return
 
     def drive_forward(self):
-        self.steer_pair.on(0, 50)
+        self.steer_pair.on_for_seconds(0, self.speed, self.drive_duration, brake=False, block=False)
 
     def drive_backwards(self):
-        self.steer_pair.on(0, -50)
+        self.steer_pair.on_for_seconds(0, -self.speed, self.drive_duration, brake=False, block=False)
     
     def turn_right(self):
-        self.steer_pair.on(100, 25)
+        self.steer_pair.on_for_seconds(100, self.turn_speed, self.turn_duration, brake=False, block=False)
 
     def turn_left(self):
-        self.steer_pair.on(-100, 25)
+        self.steer_pair.on_for_seconds(-100, self.turn_speed, self.turn_duration, brake=False, block=False)
 
     def tank_stop(self):
         self.tank_pair.off()
 
     def color_sensor(self):
         for i in range(0,100):
-            print(cs.value())
+            print(self.cs.value())
             time.sleep(0.5)
     
     def stop(self):

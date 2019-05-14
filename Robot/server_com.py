@@ -96,19 +96,20 @@ def on_message(data):
 
 @sio.on('keys')
 def on_keys(data):
-    if not args.devm:
-        if data.ArrowUp:
-            robot.drive_forward()
-        if data.ArrowDown:
-            robot.drive_backwards()
-        if data.ArrowLeft:
-            robot.turn_left()
-        if data.ArrowRight:
-            robot.turn_right()
-        if data.SpaceBar:
-            robot.hook_package()
-    else:
-        print(data)
+  if not args.devm:
+    if data["ArrowUp"]:
+        robot.drive_forward()
+    if data["ArrowDown"]:
+        robot.drive_backwards()
+    if data["ArrowLeft"]:
+        robot.turn_left()
+    if data["ArrowRight"]:
+        robot.turn_right()
+    if data["SpaceBar"]:
+        robot.hook_package()
+  else:
+      print(data)
+
 
 
 @sio.on('disconnect')
