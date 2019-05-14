@@ -2,7 +2,7 @@ import socket
 
 
 def client():
-    host = socket.gethostname()  # get local machine name
+    host = 'ev3dev'  # get local machine name
     port = 4040  # Make sure it's within the > 1024 $$ <65535 range
 
     s = socket.socket()
@@ -15,3 +15,6 @@ def client():
         print('Received from server: ' + data)
         message = input('==> ')
     s.close()
+
+
+client()
