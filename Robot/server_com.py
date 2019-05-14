@@ -23,10 +23,11 @@ parser.add_argument(
 parser.add_argument(
     '--strm', help='Streamer mode - streams footage from the device to the server', action='store_true')
 args = parser.parse_args()
-if args.devm:
-    import cv2
-else:
+if not args.devm:
     from robot_controls import Robot
+if args.strm:
+    import cv2
+    print('imported cv2...')
 
 """
 **recordAndEmit**
@@ -38,7 +39,7 @@ return None
 
 
 def recordAndEmit(socket=None, delay=1/30):
-    camera = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+    camera = cv2.VideoCapture(0)
     while True:
         check, frame = camera.read()
         frame = cv2.flip(frame, 1)
