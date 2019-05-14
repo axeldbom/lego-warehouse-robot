@@ -15,7 +15,3 @@ def client():
         print('Received from server: ' + data)
         message = input('==> ')
     s.close()
-
-
-if __name__ = '__main__':
-    client()
