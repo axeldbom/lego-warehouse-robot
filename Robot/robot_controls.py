@@ -14,10 +14,12 @@ class Robot:
         self.cs = ev3.ColorSensor()
         self.us = ev3.UltrasonicSensor()
         self.ts = ev3.TouchSensor()
+        self.gs = ev3.GyroSensor()
         
         self.cs.mode = 'COL-REFLECT'
         self.us.mode = 'US-DIST-CM'  # actually measures mm and not cm
-
+        self.gs.mode = 'GYRO-ANG'
+        
         # initiate motor pairs
         self.tank_pair = MoveTank(OUTPUT_B, OUTPUT_C)
         self.steer_pair = MoveSteering(OUTPUT_B, OUTPUT_C)
@@ -65,3 +67,7 @@ class Robot:
     def stop(self):
         self.steer_pair.off()
 
+    def gyro_sensor(self):
+        for i in range(0,100):
+            print(self.gs.value())
+            time.sleep(0.5)

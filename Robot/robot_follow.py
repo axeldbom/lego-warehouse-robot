@@ -17,7 +17,7 @@ def main(robot):
     previous_error = 0
 
     # wanted value for the color sensor
-    target_value = 45 # 35 is good for black/white
+    target_value = 35 # 35 is good for black/white
 
     # main loop
     while not robot.manual_control:
@@ -68,5 +68,7 @@ def main(robot):
 
 # Main
 if __name__ == "__main__":
-    robot = Robot(25,25)
+    speed = 25
+    turn_speed = 25
+    robot = Robot(speed, turn_speed)
     main(robot)
