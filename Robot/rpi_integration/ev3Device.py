@@ -1,5 +1,9 @@
-
+import sys
+sys.path.append('../../')
 import socket
+from Robot.robot_controls import Robot
+
+robot = Robot(30, 30)
 
 
 def server():
@@ -16,9 +20,19 @@ def server():
         data = client_socket.recv(1024).decode('utf-8')
         if not data:
             break
-        print('From online user: ' + data)
-        data = data.upper()
-        client_socket.send(data.encode('utf-8'))
+        if data == "ArrowUp":
+            robot.drive_forward()
+        if data == "ArrowDown":
+            robot.drive_backwards()
+        if data == "ArrowLeft":
+            robot.turn_left()
+        if data == "ArrowRight":
+            robot.turn_right()
+        if data == "SpaceBar":
+            robot.hook_package()
+        # print('From online user: ' + data)
+        # data = data.upper()
+        # client_socket.send(data.encode('utf-8'))
     client_socket.close()
 
 
