@@ -17,19 +17,21 @@ def server():
     client_socket, adress = s.accept()
     print("Connection from: " + str(adress))
     while True:
-        data = client_socket.recv(1024).decode('utf-8')
+        data = client_socket.recv(7).decode('utf-8')
         if not data:
             break
-        if data == "ArrowUp":
+        if data == "arrowup":
             robot.drive_forward()
-        if data == "ArrowDown":
+        if data == "arrowdo":
             robot.drive_backwards()
-        if data == "ArrowLeft":
+        if data == "arrowle":
             robot.turn_left()
-        if data == "ArrowRight":
+        if data == "arrowri":
             robot.turn_right()
-        if data == "SpaceBar":
+        if data == "spaceba":
             robot.hook_package()
+        print(data)
+        print('--------------')
         # print('From online user: ' + data)
         # data = data.upper()
         # client_socket.send(data.encode('utf-8'))
