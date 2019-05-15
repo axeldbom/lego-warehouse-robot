@@ -11,15 +11,15 @@ def server():
 
     s.listen(1)
     client_socket, adress = s.accept()
-    print("Connection from: " + str(addr))
+    print("Connection from: " + str(adress))
     while True:
-        data = c.recv(1024).decode('utf-8')
+        data = client_socket.recv(1024).decode('utf-8')
         if not data:
             break
         print('From online user: ' + data)
         data = data.upper()
-        c.send(data.encode('utf-8'))
-    c.close()
+        client_socket.send(data.encode('utf-8'))
+    client_socket.close()
 
 
 server()
