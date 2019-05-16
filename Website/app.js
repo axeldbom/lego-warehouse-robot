@@ -71,6 +71,7 @@ app.use(async function (req, res, next) {
   next()
 })
 var controlledStreams = {}
+var controllerSocketID = {}
 io.on('connection', async function (socket) {
   console.log('socket connected ' + socket.id)
 
@@ -78,9 +79,14 @@ io.on('connection', async function (socket) {
     console.log('socket disconnected ' + socket.id)
     if (await Streamer.isAstreamer(socket.id)) {
       socket.broadcast.emit('removedStreamer', socket.id)
-      socket.in(socket.id).emit('unlockControlButton')
       delete controlledStreams[socket.id]
       await Streamer.removeStreamerFromSocketId(socket.id)
+    }
+    if (controlledStreams[controllerSocketID[socket.id]]) {
+      // io.sockets.manager.roomClients[socket.id]
+      socket.in(controllerSocketID[socket.id]).emit('unlockControlButton')
+      controlledStreams[controllerSocketID[socket.id]] = false
+      delete controllerSocketID[socket.id]
     }
   })
 
@@ -123,6 +129,7 @@ io.on('connection', async function (socket) {
   socket.on('gainControlOfTheRobot', function (streamerID, callback) {
     if (!controlledStreams[streamerID]) {
       controlledStreams[streamerID] = true
+      controllerSocketID[socket.id] = streamerID
       socket.in(streamerID).emit('lockControlButton')
       callback(true)
     } else {
