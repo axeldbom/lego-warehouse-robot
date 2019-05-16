@@ -30,20 +30,21 @@ class Robot:
 
         # initiate individual motors
         self.mm = MediumMotor(OUTPUT_A)
-        self.hook_speed = 50
+        self.hook_speed = 25
         
     def hook_package(self):   
         # if currently carrying a package, lift the hook. else lower the hook
-        if self.package:
-            self.mm.on(self.hook_speed)
-            self.mm.wait_until_not_moving()
-            self.package = False
-            return
-        else:
+        #if not self.package:
             self.mm.on(-self.hook_speed)
             self.mm.wait_until_not_moving()
             self.package = True
 
+    def unhook_package(self):
+        #if self.package:
+            self.mm.on(self.hook_speed)
+            self.mm.wait_until_not_moving()
+            self.package = False
+    
     def drive_forward(self):
         self.steer_pair.on_for_seconds(0, self.speed, self.drive_duration, brake=False, block=False)
 
@@ -68,6 +69,10 @@ class Robot:
         self.steer_pair.off()
 
     def gyro_sensor(self):
-        for i in range(0,100):
-            print(self.gs.value())
-            time.sleep(0.5)
+        print("Angle = ", self.gs.value())
+        
+    def turn_90(self):
+        self.steer_pair.on_for_degrees(100, self.speed, -170, brake=False, block=True)
+        
+    def turn_180(self):
+        self.steer_pair.on_for_degrees(100, self.speed, -340, brake=False, block=True)
