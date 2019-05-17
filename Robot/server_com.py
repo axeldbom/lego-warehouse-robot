@@ -105,7 +105,6 @@ def autonomous_robot(robot):
 
         # package stuff
         distance = robot.us.value()
-        print("distance = ", distance)
         if distance < 40 and not robot.package:
             robot.stop()
             robot.hook_package()
