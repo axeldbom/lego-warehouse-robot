@@ -68,11 +68,11 @@ def recordAndEmit(socket=None, delay=1/30):
 """
 The socket and functions used to communicate with the server.
 """
+autonomous = False
+control_dic = {}
 sio = socketio.Client()
 if not args.devm:
     robot = Robot(30, 30)
-autonomous = False
-control_dir = {}
 
 
 def autonomous_robot(robot):
@@ -167,7 +167,7 @@ def on_message(data):
 
 @sio.on('keys')
 def on_keys(data):
-    control_dir = data
+    control_dic = data
     if data['a'] and autonomous:
         autonomous = False
     elif data['a'] and not autonomous:
