@@ -109,6 +109,12 @@ def autonomous_robot(robot):
             robot.stop()
             robot.hook_package()
 
+            robot.turn_180()
+            robot.steer_pair.on_for_seconds(0, -robot.speed, 3.5)
+            robot.unhook_package()
+            robot.steer_pair.on_for_seconds(0, -robot.speed, 1.5)
+            robot.turn_90()
+            
         # PID stuff
         error = target_value - robot.cs.value()
 
