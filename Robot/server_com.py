@@ -22,6 +22,8 @@ parser.add_argument(
     '--url', help='url to the server - http://<input>, defaults as localhost:3000', default='localhost:3000')
 parser.add_argument(
     '--strm', help='Streamer mode - streams footage from the device to the server', action='store_true')
+parser.add_argument(
+    '--rspeed', help='Streamer mode - streams footage from the device to the server', default=10)
 args = parser.parse_args()
 if not args.devm:
     from robot_controls import Robot
@@ -72,7 +74,7 @@ autonomous = False
 control_dic = {}
 sio = socketio.Client()
 if not args.devm:
-    robot = Robot(30, 30)
+    robot = Robot(args.rspeed, args.rspeed)
 
 
 def autonomous_robot(robot):
