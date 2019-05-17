@@ -16,7 +16,7 @@ socket.on('forwardImageRobot', function (image) {
 
 // Key press functionality start
 function keysOfInterest (key) {
-  return (key == 'ArrowUp' || key == 'ArrowDown' || key == 'ArrowLeft' || key == 'ArrowRight' || key == ' ')
+  return (key == 'ArrowUp' || key == 'ArrowDown' || key == 'ArrowLeft' || key == 'ArrowRight' || key == ' ' || key == 'a')
 }
 
 function keyHandler (bool, key) {
@@ -33,7 +33,8 @@ const keys = {
   ArrowDown: false,
   ArrowLeft: false,
   ArrowRight: false,
-  SpaceBar: false
+  SpaceBar: false,
+  a: false
 }
 function onKeyDown (event) {
   if (!keysOfInterest(event.key)) return
