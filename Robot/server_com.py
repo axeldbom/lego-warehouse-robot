@@ -68,7 +68,7 @@ def recordAndEmit(socket=None, delay=1/30):
 """
 The socket and functions used to communicate with the server.
 """
-autonomous = False
+global autonomous = False
 control_dic = {}
 sio = socketio.Client()
 if not args.devm:
