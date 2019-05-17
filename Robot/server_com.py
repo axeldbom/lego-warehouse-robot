@@ -4,6 +4,7 @@ import time
 import requests
 import sys
 import argparse
+global autonomous
 # requests lib is needed - use pip install requests
 # Handling real time stuff, use opencv - pip install opencv-python
 
@@ -68,7 +69,7 @@ def recordAndEmit(socket=None, delay=1/30):
 """
 The socket and functions used to communicate with the server.
 """
-global autonomous = False
+autonomous = False
 control_dic = {}
 sio = socketio.Client()
 if not args.devm:
