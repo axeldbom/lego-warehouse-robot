@@ -4,6 +4,7 @@ import time
 import requests
 import sys
 import argparse
+from time import sleep
 # requests lib is needed - use pip install requests
 # Handling real time stuff, use opencv - pip install opencv-python
 
@@ -96,17 +97,12 @@ def autonomous_robot(robot):
         if robot.button.any():
             exit()
 
-        if robot.ts.value():
-            robot.package = True
-            robot.stop()
-            robot.hook_package()
-
         # package stuff
         distance = robot.us.value()
         if distance < 40 and not robot.package:
             robot.stop()
             robot.hook_package()
-
+            time.sleep(0.5)
             robot.turn_180()
             robot.steer_pair.on_for_seconds(0, -robot.speed, 3.5)
             robot.unhook_package()

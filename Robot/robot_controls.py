@@ -13,7 +13,7 @@ class Robot:
         # initiate sensors
         self.cs = ev3.ColorSensor()
         self.us = ev3.UltrasonicSensor()
-        self.ts = ev3.TouchSensor()
+
         
         
         self.cs.mode = 'COL-REFLECT'
@@ -69,7 +69,7 @@ class Robot:
         self.steer_pair.off()
         
     def turn_90(self):
-        self.steer_pair.on_for_degrees(100, self.speed, -170, brake=False, block=True)
+        self.steer_pair.on_for_degrees(100, self.speed, -230, brake=False, block=True)
         
     def turn_180(self):
         self.steer_pair.on_for_degrees(100, self.speed, -340, brake=False, block=True)
