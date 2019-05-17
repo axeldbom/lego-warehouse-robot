@@ -4,7 +4,6 @@ import time
 import requests
 import sys
 import argparse
-global autonomous
 # requests lib is needed - use pip install requests
 # Handling real time stuff, use opencv - pip install opencv-python
 
@@ -168,6 +167,7 @@ def on_message(data):
 
 @sio.on('keys')
 def on_keys(data):
+    global autonomous
     control_dic = data
     if data['a'] and autonomous:
         autonomous = False
