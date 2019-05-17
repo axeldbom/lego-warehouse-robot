@@ -74,7 +74,7 @@ autonomous = False
 control_dic = {}
 sio = socketio.Client()
 if not args.devm:
-    robot = Robot(args.rspeed, args.rspeed)
+    robot = Robot(int(args.rspeed), int(args.rspeed))
 
 
 def autonomous_robot(robot):
