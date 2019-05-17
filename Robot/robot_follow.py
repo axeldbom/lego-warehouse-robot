@@ -8,7 +8,7 @@ def main(robot):
 
     # PID stuff
     Kp = 1  # proportional gain
-    Ki = 2000  # integral gain
+    Ki = 2000  # 2000  # integral gain
     Kd = 0  # derivative gain
 
     Ts = 0.5  # sampling time for color sensor is twice per second = 0.5 s
@@ -16,26 +16,48 @@ def main(robot):
     integral = 0
     previous_error = 0
 
+    # start gyro ange
+    gyro_start = robot.gs.value()
+    
     # wanted value for the color sensor
-    target_value = 45 # 35 is good for black/white
-
+    target_value = 45  # 35 is good for black/white
+    print("target value = ", target_value)
+    
     # main loop
     while not robot.manual_control:
 
         if robot.button.any(): exit()
-    
+
+        robot.gyro_sensor()
+        angle_diff = abs(gyro_start - robot.gs.value())
+
+        '''
+        if angle_diff >= 170 and robot.package):
+            robot.turn_180()
+            robot.unhook_package()
+            robot.package = False
+            robot.turn_180()
+        '''
+        
         if robot.ts.value():
             robot.package = True
             robot.stop()
-            robot.hook_package()
-	
+            robot.unhook_package()
+	    
         # package stuff
         distance = robot.us.value()
         print("distance = ", distance)
         if distance < 40 and not robot.package:
+            gyro_start = robot.gs.value()
             robot.stop()
             robot.hook_package()
-	
+
+            robot.turn_180()
+            robot.steer_pair.on_for_seconds(0, -robot.speed, 3.5)
+            robot.unhook_package()
+            robot.steer_pair.on_for_seconds(0, -robot.speed, 1.5)
+            robot.turn_90()
+            
         # PID stuff
         error = target_value - robot.cs.value()
     
@@ -54,10 +76,10 @@ def main(robot):
         # u > 0: steer right
         # u < 0: steer left 
         u = Kp * (error + integral + derivative)
-        # print("u = ", u)
+        print("u = ", u)
 
         # run motors
-        if u > -2 and u < 2:
+        if u > -1 and u < 1:
             robot.steer_pair.on_for_seconds(0, robot.speed, Ts, brake=False, block=False)
         else:
             if u < -100: u = -100
@@ -68,5 +90,7 @@ def main(robot):
 
 # Main
 if __name__ == "__main__":
-    robot = Robot(25,25)
+    speed = 10
+    turn_speed = 10
+    robot = Robot(speed, turn_speed)
     main(robot)
