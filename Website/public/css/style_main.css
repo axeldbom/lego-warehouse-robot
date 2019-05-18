@@ -36,6 +36,7 @@
       padding: 30px;
       text-align: center;
   }
+
   .overlayDiv-p{
     margin-bottom: 50px;
     font-weight: 300;
@@ -51,7 +52,6 @@
     .table>tbody>tr>td {
         border-top: 0;
     }
-
   #close{
     /* position: absolute; */
     /* right: 100px;

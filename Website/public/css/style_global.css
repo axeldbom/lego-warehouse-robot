@@ -2,6 +2,11 @@ body{
   width: inherit;
 }
 
+#keyboardcontrols
+{padding: 200px 50px 0; 
+  text-align: center;"
+}
+
 .container{
  max-width: 1200px;/*970px;*/
  margin: auto;
