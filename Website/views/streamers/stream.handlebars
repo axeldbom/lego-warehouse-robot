@@ -1,4 +1,76 @@
 <script type="module" src="/javascript/client/streamers.js"></script>
 <div class="container">
-  <div id="mywebcam"></div>
+<div class="row">
+  <div id="mywebcam" class="col-md-4 col-lg-5"></div>
+
+<div id="keyboardcontrols" class="col-md-4 col-lg-5" style="padding-right:30px; padding-top:100px;">
+    <table id="info">
+      <tbody>
+        <tr>
+        <td style="border-top: none;"></td>
+        <td style="border-top: none;"><button type="button" class="btn btn-default" id="up">Up</button></td>
+        <td style="border-top: none;"></td>
+       </tr>
+        <tr>
+        <td style="border-top: none;"><button type="button" class="btn btn-default" id="left">Left</button></td>
+        <td style="border-top: none;"></td>
+        <td style="border-top: none;"><button type="button" class="btn btn-default" id="right">Right</button></td>
+       </tr>
+       <tr>
+       <td style="border-top: none;"></td>
+       <td style="border-top: none;"><button type="button" class="btn btn-default" id="down">Down</button></td>
+       <td style="border-top: none;"></td>
+      </tr>
+     </tbody>
+    </table>
 </div>
+
+
+<script>
+'use strict';
+
+var Key = {
+  LEFT:  "ArrowLeft",
+  UP:    "ArrowUp",
+  RIGHT: "ArrowRight",
+  DOWN:  "ArrowDown"
+};
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
+function handleKeyboardEvent(event) {
+  var info = document.getElementById("info");
+  switch (event.key) {
+    case Key.LEFT:
+    document.getElementById("left").style.backgroundColor = "blue";
+    sleep(100).then(() => {
+          document.getElementById("left").style.backgroundColor = "white";
+                        })
+      break;
+    case Key.UP:
+  document.getElementById("up").style.backgroundColor = "blue";
+  sleep(100).then(() => {
+          document.getElementById("up").style.backgroundColor = "white";
+                        })
+      break;
+    case Key.RIGHT:
+      document.getElementById("right").style.backgroundColor = "blue";
+      sleep(100).then(() => {
+          document.getElementById("right").style.backgroundColor = "white";
+                        })
+      break;
+    case Key.DOWN:
+      document.getElementById("down").style.backgroundColor = "blue";
+      sleep(100).then(() => {
+          document.getElementById("down").style.backgroundColor = "white";
+                        })
+      break;
+  }
+}
+
+document.addEventListener("keydown", handleKeyboardEvent);
+
+
+</script>

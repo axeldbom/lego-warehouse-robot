@@ -30,12 +30,12 @@
       background-color: #fefefe;
       margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
       border: 1px solid #888;
-      max-width: 30em; /* Could be more or less, depending on screen size */
+      max-width: 75%;
+      max-height: 75%; /* Could be more or less, depending on screen size */
       /*overflow: auto; /*Enable scroll if needed*/
       padding: 30px;
       text-align: center;
   }
-
   .overlayDiv-p{
     margin-bottom: 50px;
     font-weight: 300;
@@ -46,6 +46,12 @@
     font-size: 2em;
     font-weight: 300;
   }
+
+  .table>tbody>tr>th,
+    .table>tbody>tr>td {
+        border-top: 0;
+    }
+
   #close{
     /* position: absolute; */
     /* right: 100px;
