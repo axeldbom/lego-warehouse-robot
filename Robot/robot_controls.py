@@ -69,7 +69,7 @@ class Robot:
         self.steer_pair.off()
         
     def turn_90(self):
-        self.steer_pair.on_for_degrees(100, self.speed, -230, brake=False, block=True)
+        self.steer_pair.on_for_degrees(100, self.speed, 250, brake=False, block=True)
         
     def turn_180(self):
-        self.steer_pair.on_for_degrees(100, self.speed, -340, brake=False, block=True)
+        self.steer_pair.on_for_degrees(100, self.speed, -390, brake=False, block=True)
