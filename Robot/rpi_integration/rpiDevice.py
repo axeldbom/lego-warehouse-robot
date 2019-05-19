@@ -101,6 +101,8 @@ def on_keys(data):
         r_socket.send('arrowri'.encode('utf-8'))
     if data["SpaceBar"]:
         r_socket.send('spaceba'.encode('utf-8'))
+    if data["a"]:
+        r_socket.send('keyadow'.encode('utf-8'))
 
 
 @sio.on('disconnect')
