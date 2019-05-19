@@ -70,6 +70,7 @@ def recordAndEmit(socket=None, delay=1/30):
 The socket and functions used to communicate with the server.
 """
 autonomous = False
+hook_up = True
 control_dic = {}
 sio = socketio.Client()
 if not args.devm:
@@ -169,6 +170,7 @@ def on_message(data):
 @sio.on('keys')
 def on_keys(data):
     global autonomous
+    global hook_up
     control_dic = data
     if data['a'] and autonomous:
         autonomous = False
@@ -185,7 +187,12 @@ def on_keys(data):
             if data["ArrowRight"]:
                 robot.turn_right()
             if data["SpaceBar"]:
-                robot.hook_package()
+                if hook_up:
+                    robot.hook_package()
+                    hook_up = False
+                elif not hook_up:
+                    robot.unhook_package()
+                    hook_up = True
         else:
             print(data)
     else:
