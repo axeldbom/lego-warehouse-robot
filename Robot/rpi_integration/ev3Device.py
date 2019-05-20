@@ -23,7 +23,7 @@ robot = Robot(10, 10)
 autonomous = False
 
 
-def autonomous_robot(robot,test):
+def autonomous_robot(robot, test):
     global autonomous
     # PID stuff
     Kp = 1  # proportional gain
@@ -39,54 +39,55 @@ def autonomous_robot(robot,test):
     target_value = 45  # 35 is good for black/white
 
     # main loop
-    while autonomous:
+    while True:
+        while autonomous:
 
-        if robot.button.any():
-            exit()
+            if robot.button.any():
+                exit()
 
-        # package stuff
-        distance = robot.us.value()
-        if distance < 40 and not robot.package:
-            robot.stop()
-            robot.hook_package()
-            time.sleep(0.5)
-            robot.turn_180()
-            robot.steer_pair.on_for_seconds(0, -robot.speed, 3.5)
-            robot.unhook_package()
-            robot.steer_pair.on_for_seconds(0, -robot.speed, 1.5)
-            robot.turn_90()
+            # package stuff
+            distance = robot.us.value()
+            if distance < 40 and not robot.package:
+                robot.stop()
+                robot.hook_package()
+                time.sleep(0.5)
+                robot.turn_180()
+                robot.steer_pair.on_for_seconds(0, -robot.speed, 3.5)
+                robot.unhook_package()
+                robot.steer_pair.on_for_seconds(0, -robot.speed, 1.5)
+                robot.turn_90()
 
-        # PID stuff
-        error = target_value - robot.cs.value()
+            # PID stuff
+            error = target_value - robot.cs.value()
 
-        if Ki > 0:
-            integral += Ts/Ki * error
-        else:
-            integral = 0
+            if Ki > 0:
+                integral += Ts/Ki * error
+            else:
+                integral = 0
 
-        if Kd > 0:
-            derivative = Kd/Ts * (error - previous_error)
-        else:
-            derivative = 0
+            if Kd > 0:
+                derivative = Kd/Ts * (error - previous_error)
+            else:
+                derivative = 0
 
-        # final output of PID equation
-        # u == 0: continue forward
-        # u > 0: steer right
-        # u < 0: steer left
-        u = Kp * (error + integral + derivative)
-        # print("u = ", u)
+            # final output of PID equation
+            # u == 0: continue forward
+            # u > 0: steer right
+            # u < 0: steer left
+            u = Kp * (error + integral + derivative)
+            # print("u = ", u)
 
-        # run motors
-        if u > -2 and u < 2:
-            robot.steer_pair.on_for_seconds(0, robot.speed, Ts, brake=False, block=False)
-        else:
-            if u < -100:
-                u = -100
-            elif u > 100:
-                u = 100
-            robot.steer_pair.on_for_seconds(u, robot.speed, Ts, brake=False, block=False)
-            # tank_pair.on_for_seconds(speed * (1 + u/100), speed * (1 - u/100), Ts, brake=False, Block=False)
-        previous_error = error
+            # run motors
+            if u > -2 and u < 2:
+                robot.steer_pair.on_for_seconds(0, robot.speed, Ts, brake=False, block=False)
+            else:
+                if u < -100:
+                    u = -100
+                elif u > 100:
+                    u = 100
+                robot.steer_pair.on_for_seconds(u, robot.speed, Ts, brake=False, block=False)
+                # tank_pair.on_for_seconds(speed * (1 + u/100), speed * (1 - u/100), Ts, brake=False, Block=False)
+            previous_error = error
 
 
 def server():
@@ -100,7 +101,7 @@ def server():
     s.listen(1)
     client_socket, adress = s.accept()
     print("Connection from: " + str(adress))
-    thread.start_new_thread(autonomous_robot, (robot,"arg"))
+    thread.start_new_thread(autonomous_robot, (robot, "arg"))
     while True:
         data = client_socket.recv(7).decode('utf-8')
         if not data:
