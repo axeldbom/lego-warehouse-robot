@@ -1,5 +1,5 @@
 import sys
-sys.path.append('../../')
+sys.path.append('./../../')
 import socket
 from Robot.robot_controls import Robot
 import argparse
@@ -23,7 +23,7 @@ robot = Robot(10, 10)
 autonomous = False
 
 
-def autonomous_robot(robot):
+def autonomous_robot(robot,test):
     global autonomous
     # PID stuff
     Kp = 1  # proportional gain
@@ -100,14 +100,14 @@ def server():
     s.listen(1)
     client_socket, adress = s.accept()
     print("Connection from: " + str(adress))
-    thread.start_new_thread(autonomous_robot, ())
+    thread.start_new_thread(autonomous_robot, (robot,"arg"))
     while True:
         data = client_socket.recv(7).decode('utf-8')
         if not data:
             break
-        if data['keyadow'] and autonomous:
+        if data == 'keyadow' and autonomous:
             autonomous = False
-        elif data['keyadow'] and not autonomous:
+        elif data == 'keyadow' and not autonomous:
             autonomous = True
 
         if not autonomous:
