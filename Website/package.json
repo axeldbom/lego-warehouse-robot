@@ -20,7 +20,7 @@
     "mongodb": "*",
     "mongoose": "*",
     "node-webcam": "^0.4.6",
-    "npm": "^6.0.1",
+    "npm": "^6.13.4",
     "socket.io": "2.1.1",
     "webcam": "^3.2.1"
   }
