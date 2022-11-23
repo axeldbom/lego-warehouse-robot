@@ -21,7 +21,7 @@
     "mongoose": "*",
     "node-webcam": "^0.4.6",
     "npm": "^6.0.1",
-    "socket.io": "2.1.1",
+    "socket.io": "2.5.0",
     "webcam": "^3.2.1"
   }
 }
